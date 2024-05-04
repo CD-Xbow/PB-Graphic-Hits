@@ -1,5 +1,5 @@
 
-$$Project name : ConvolutionFilter
+##Project name : ConvolutionFilter
 
 - File Name : ConvolutionFilter - Example.pb
 - File version: 1.0.0
@@ -11,7 +11,7 @@ $$Project name : ConvolutionFilter
 - Platform : Windows, Linux, MacOS X
 
 
-$$Filter list
+## Filter list
 GAUSSIAN_BLUR_2
 GAUSSIAN_BLUR_3
 GAUSSIAN_BLUR_4
@@ -84,9 +84,13 @@ DARKEN_7
 DARKEN_8
 DARKEN_9
 SPREAD_PIXEL
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-Programming notes
+
+## Programming notes
 
 Based on Keya original code :
 
 https://www.purebasic.fr/english/viewtopic.php?f=12&t=68204
+
+## Syntax
+
+ConvFilter\SelectKernel("LAPLACE", ConvolutionFilter::#Horizontal_Flip)
