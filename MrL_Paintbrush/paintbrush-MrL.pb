@@ -1,5 +1,7 @@
 ﻿; simple painter
 ; 02/2024 Mr.L
+; updated 05/24
+;https://www.purebasic.fr/english/viewtopic.php?p=620498#p620498
 
 EnableExplicit
 UseJPEGImageDecoder()
@@ -250,6 +252,9 @@ Procedure Painting_Dry(*painting.PAINTING, amount.d)
 	With *painting
 		For y = 0 To \height - 1
 			For x = 0 To \width - 1
+; 				If \paint(x, y)\f
+; 					\grain(x, y) * \paint(x, y)\f *
+; 				EndIf
 				\paint(x, y)\f = amount
 			Next
 		Next
@@ -297,7 +302,9 @@ Procedure Painting_DrawBrushPreview(*painting.PAINTING, *brush.BRUSH)
 			StrokePath(1)
 		EndIf
 		
-		RotateCoordinates(*brush\x, *brush\y, Degree(*brush\angle - #PI / 2))
+		If *painting\key <> #PB_Shortcut_E
+			RotateCoordinates(*brush\x, *brush\y, Degree(*brush\angle - #PI / 2))
+		EndIf
 		AddPathEllipse(*brush\x, *brush\y, *brush\widthH * *painting\zoom, *brush\heightH * *painting\zoom)
 		VectorSourceColor(RGBA(r, g, b, 255))
 		StrokePath(6, #PB_Path_Preserve)
@@ -310,18 +317,18 @@ Procedure Painting_Draw(*painting.PAINTING, *brush.BRUSH)
 		ProcedureReturn
 	EndIf
 	With *painting
-		If StartVectorDrawing(CanvasVectorOutput(*painting\canvas))
+		If StartVectorDrawing(CanvasVectorOutput(\canvas))
 			VectorSourceColor(RGBA(128,128,128,255))
 			FillVectorOutput()
 			
 			SaveVectorState()
-			ScaleCoordinates(*painting\zoom, *painting\zoom)
-			TranslateCoordinates(*painting\scrollX, *painting\scrollY)
+			ScaleCoordinates(\zoom, \zoom)
+			TranslateCoordinates(\scrollX, \scrollY)
 			
 			VectorSourceColor(RGBA(80,80,80,255))
-			MovePathCursor(8, *painting\height + 4)
-			AddPathLine(*painting\width - 4, 0, #PB_Path_Relative)
-			AddPathLine(0, -*painting\height + 4, #PB_Path_Relative)
+			MovePathCursor(8, \height + 4)
+			AddPathLine(\width - 4, 0, #PB_Path_Relative)
+			AddPathLine(0, -\height + 4, #PB_Path_Relative)
 			StrokePath(8)
 			
 			MovePathCursor(0, 0)
@@ -523,13 +530,16 @@ Procedure Brush_Erase(*painting.PAINTING, *brush.BRUSH, amount.d)
 	Protected xa, ya, xb, yb, xc, yc
 	Protected.PAINT *paintColor	
 	
+	Protected x1 = *brush\x / *painting\zoom - *painting\scrollX
+	Protected y1 = *brush\y / *painting\zoom - *painting\scrollY
+	
 	If StartDrawing(ImageOutput(*painting\image))
 		yc = #BrushSize - *brush\heightH
-		yb = *brush\y - *brush\heightH
+		yb = y1 - *brush\heightH
 		For ya = 0 To *brush\height - 1
 			If yb > 0 And yb < *painting\height - 1
 				xc = #BrushSize - *brush\widthH
-				xb = *brush\x - *brush\widthH
+				xb = x1 - *brush\widthH
 				For xa = 0 To *brush\width - 1
 					If *brush\mask(xc, yc)
 						If xb > 0 And xb < *painting\width - 1
@@ -571,7 +581,7 @@ Procedure Brush_Stroke(*painting.PAINTING, *brush.BRUSH, x1,y1, x2,y2, scale.d =
 	Static Dim BrushCoordY(#BrushSize, #BrushSize)
 	Static Dim BrushCoordXd.d(#BrushSize, #BrushSize)
 	Static Dim BrushCoordYd.d(#BrushSize, #BrushSize)
-	Protected i1 = 0, i2 = 1
+	Protected i1 = 0, i2 = 1, xc, yc
 		
 	x1 / *painting\zoom - *painting\scrollX
 	y1 / *painting\zoom - *painting\scrollY
@@ -606,9 +616,9 @@ Procedure Brush_Stroke(*painting.PAINTING, *brush.BRUSH, x1,y1, x2,y2, scale.d =
 		oldH = h
 		oldW = w
 		For y = 0 To h - 1
-			Protected yc = y - h2
+			yc = y - h2
 			For x = 0 To w - 1
-				Protected xc = x - w2
+				xc = x - w2
 				a = ATan2(xc, yc) - *brush\angleOld
 				d = Sqr(xc * xc + yc * yc); * scale
 				BrushCoordX(x, y) = Sin(a) * d
@@ -664,11 +674,20 @@ Procedure Brush_Stroke(*painting.PAINTING, *brush.BRUSH, x1,y1, x2,y2, scale.d =
  										ElseIf f < -0.05
  											f = -0.05
  										EndIf
+ 										 										
+ 										Static.d temp, colR, colG, colB
+ 										colR = *paintColor\r + f
+ 										colG = *paintColor\g + f
+ 										colB = *paintColor\b + f
  										
- 										Plot(xb, yb, RGBA(Clamp0(*paintColor\r + f, 1) * 255,
- 										                  Clamp0(*paintColor\g + f, 1) * 255,
- 										                  Clamp0(*paintColor\b + f, 1) * 255,
- 										                  *paintColor\f * 255))
+ 										temp = colR + 1 - Abs(colR - 1)
+ 										colR = (temp + Abs(temp)) * 63.75
+ 										temp = colG + 1 - Abs(colG - 1)
+ 										colG = (temp + Abs(temp)) * 63.75
+ 										temp = colB + 1 - Abs(colB - 1)
+										colB = (temp + Abs(temp)) * 63.75
+ 										
+ 										Plot(xb, yb, RGBA(colR, colG, colB, *paintColor\f * 255))
 									EndIf
 								EndIf
 
@@ -718,6 +737,7 @@ Procedure Painting_Load(*painting.PAINTING, path.s)
 			\scrollY = 0
 			\zoom = 1
 			Dim \paint(\width, \height)
+			Dim \grain(\width, \height)
 			If StartDrawing(ImageOutput(\image))
 				For y = 0 To \height - 1
 					For x = 0 To \width - 1
@@ -1004,7 +1024,7 @@ Painting_SetPaper(*Palette, 0.98, 0.98, 0.95, 0)
 Palette_Reset(*Palette)
 
 Brush_SetSize(@brush,75, 25)
-Brush_SetParam(@brush, 0.65, 0.5, 1.0, 0.15, 1)
+Brush_SetParam(@brush, 0.65, 0.5, 1.0, 0.25, 1)
 Brush_SetColor(@brush, 1, 1, 1, 1, 0)
 
 BindGadgetEvent(#g_canvas, @EventHandler())
@@ -1046,8 +1066,8 @@ Repeat
 ForEver
 
 ; IDE Options = PureBasic 6.10 LTS (Windows - x64)
-; CursorPosition = 1021
-; FirstLine = 551
+; CursorPosition = 740
+; FirstLine = 735
 ; Folding = -----
 ; EnableXP
 ; DPIAware
