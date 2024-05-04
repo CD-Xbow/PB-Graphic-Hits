@@ -1,14 +1,14 @@
 
 $$Project name : ConvolutionFilter
 
-File Name : ConvolutionFilter - Example.pb
-File version: 1.0.0
-Programming : OK
-Programmed by : StarBootics
-Date : 28-11-2019
-Last Update : 28-11-2019
-PureBasic code : V5.71 LTS
-Platform : Windows, Linux, MacOS X
+- File Name : ConvolutionFilter - Example.pb
+- File version: 1.0.0
+- Programming : OK
+- Programmed by : StarBootics
+- Date : 28-11-2019
+- Last Update : 28-11-2019
+- PureBasic code : V5.71 LTS, V6.1(win64)
+- Platform : Windows, Linux, MacOS X
 
 
 $$Filter list
