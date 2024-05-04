@@ -8,6 +8,6 @@
 - https://www.purebasic.fr/english/viewtopic.php?t=62346
 
  
- This is an interesting filter where effects can be chained for unusaul effects. Read the discussion in the forum.
+ This is an interesting filter where effects can be chained for unusual effects. Read the discussion in the forum.
 
 - 
