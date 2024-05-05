@@ -1,0 +1,12 @@
+[Info]
+ApplicationName = Pure_autopaint
+Version = 1.00
+[Window]
+;  Les Window dimensions
+; 
+WindowX = -8
+WindowY = -8
+WindowX_larg = 1366
+WindowY_haut = 715
+[Path]
+chemin image = C:\Users\user\Pictures\art\jacqueline1.jpg
