@@ -8,7 +8,7 @@
 - https://www.purebasic.fr/english/viewtopic.php?t=62346
 
  
- This is an interesting filter where scramble effects can be chained for unusual effects cumulative fx. 
+ This is an interesting filter where scramble effects can be chained for unusual cumulative fx. 
  
  Some are useful and interesting. Read the discussion in the forum. 
  
