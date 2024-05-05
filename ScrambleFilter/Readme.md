@@ -8,6 +8,9 @@
 - https://www.purebasic.fr/english/viewtopic.php?t=62346
 
  
- This is an interesting filter where effects can be chained for unusual effects. Read the discussion in the forum.
+ This is an interesting filter where scramble effects can be chained for unusual effects cumulative fx. Some are useful and interesting. Read the discussion in the forum. 
+ ![image](https://github.com/CD-Xbow/PB-Greatest-Hits/assets/151369619/2497a53e-75c5-4948-ba61-0f868c493ca1)
+
+ The demo comes with a number of standard effects such as negative, grayscale, mirror and resize, making it pretty useful as is. I have added flip and pixelate to my little mod, they were there begging to be implemented.. Note the XColorise option doesn't work correctly
 
 - 
