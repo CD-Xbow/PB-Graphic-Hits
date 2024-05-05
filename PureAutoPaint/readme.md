@@ -4,3 +4,5 @@ I haven't looked at the code in any detail.
 
 See discussion in the french forum
 https://www.purebasic.fr/english/viewtopic.php?t=53477&hilit=pure_autopaint
+
+I have been playing with brush 7 and 8. Copies of the originals are still there.
