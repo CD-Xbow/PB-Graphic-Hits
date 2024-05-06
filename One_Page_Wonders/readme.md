@@ -1,6 +1,6 @@
 ## One Page Wonders
 
-These are small, single file, graphical examples mostly taken out of the PoreBasic forums. While they demonstate the power and efficeny of PureBasic, they also show how clever some folks are. I have made a 64bit Windows executable of each of the examples so the whole world can download them and enjoy all this PB goodness.
+These are small, single file, graphical examples mostly taken out of the PureBasic forums. While they demonstate the power and efficeny of PureBasic, they also show how really clever some folks are. I have made a 64bit Windows executable of each of the examples so the whole world can download them and enjoy all this PB goodness.
 
 
 - abstract-flow                                     
